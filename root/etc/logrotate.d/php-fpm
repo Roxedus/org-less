@@ -1,0 +1,15 @@
+
+/config/log/php/*.log {
+        rotate 7
+        weekly
+        missingok
+        notifempty
+        delaycompress
+        compress
+        dateext
+        sharedscripts
+        postrotate
+                /command/s6-svc -h /var/run/s6-rc/servicedirs/php-fpm
+        endscript
+        su organizr organizr
+}

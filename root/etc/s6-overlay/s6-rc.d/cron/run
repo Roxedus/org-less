@@ -1,0 +1,4 @@
+#!/command/with-contenv bash
+# shellcheck shell=bash
+
+exec /usr/sbin/crond -f -S -l 5 -c /etc/crontabs

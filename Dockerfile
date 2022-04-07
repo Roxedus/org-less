@@ -23,6 +23,9 @@ RUN \
   tar xf /tmp/organizr.tar.gz -C \
     /build --strip-components=1 && \
   mkdir -p /build/data && \
+  touch /build/data/.empty && \
+  sed -i "s/'branch' => '[^']*',/'branch' =\> '$BRANCH',/" /build/api/config/default.php  && \
+  sed -i "s/'commit' => '[^']*',/'commit' =\> '$VERSION',/" /build/api/config/default.php  && \
   echo "$BRANCH" > /build/Docker.txt && \
   echo "$VERSION" > /build/Github.txt
 

@@ -48,7 +48,7 @@ RUN \
     ca-certificates \
     coreutils \
     curl \
-    libressl3.4-libssl \
+    libressl3.5-libssl \
     logrotate \
     nano \
     nginx \

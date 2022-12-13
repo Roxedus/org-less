@@ -6,6 +6,6 @@ if { mkdir -p /config/nginx }
 if { mkdir -p /config/log/nginx }
 if { mkdir -p /config/php }
 if { mkdir -p /config/log/php }
-foreground { foreground { if -n { test -f /config/php/php-local.ini } bash -c "echo -e \"date.timezone = $TZ\" > /config/php/php-local.ini" } cp /config/php/php-local.ini /etc/php8/conf.d/php-local.ini }
-foreground { foreground { if -n { test -f /config/php/www2.conf } bash -c "echo -e \"; Pool name\n[www]\" > /config/php/www2.conf" } cp /config/php/www2.conf /etc/php8/php-fpm.d/www2.conf }
+foreground { foreground { if -n { test -f /config/php/php-local.ini } bash -c "echo -e \"date.timezone = $TZ\" > /config/php/php-local.ini" } cp /config/php/php-local.ini /etc/php81/conf.d/php-local.ini }
+foreground { foreground { if -n { test -f /config/php/www2.conf } bash -c "echo -e \"; Pool name\n[www]\" > /config/php/www2.conf" } cp /config/php/www2.conf /etc/php81/php-fpm.d/www2.conf }
 foreground { if -n { grep -qs "worker_processes" /config/nginx/worker_processes.conf } bash -c "echo -e \"worker_processes $(nproc);\" >/config/nginx/worker_processes.conf" }

@@ -94,8 +94,7 @@ RUN \
   sed -i 's#/usr/sbin/logrotate /etc/logrotate.conf#/usr/sbin/logrotate /etc/logrotate.conf -s /config/log/logrotate.status#g' /etc/periodic/daily/logrotate && \
   echo "**** enable PHP-FPM ****" && \
   sed -i "s#listen = 127.0.0.1:9000#listen = '/var/run/php81-fpm.sock'#g" /etc/php81/php-fpm.d/www.conf && \
-  sed -i "s#;listen.owner = nobody#listen.owner = organizr#g" /etc/
-  /php-fpm.d/www.conf && \
+  sed -i "s#;listen.owner = nobody#listen.owner = organizr#g" /etc/php81/php-fpm.d/www.conf && \
   sed -i "s#;listen.group = nobody#listen.group = organizr#g" /etc/php81/php-fpm.d/www.conf && \
   sed -i "s#;listen.mode = nobody#listen.mode = 0660#g" /etc/php81/php-fpm.d/www.conf && \
   echo "**** set our recommended defaults ****" && \

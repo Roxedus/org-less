@@ -53,25 +53,25 @@ RUN \
     nano \
     nginx \
     openssl \
-    php8 \
-    php8-curl \
-    php8-fileinfo \
-    php8-fpm \
-    php8-ftp \
-    php8-json \
-    php8-ldap \
-    php8-mbstring \
-    php8-mysqli \
-    php8-openssl \
-    php8-pdo_sqlite \
-    php8-session \
-    php8-simplexml \
-    php8-sqlite3 \
-    php8-tokenizer \
-    php8-xml \
-    php8-xmlwriter \
-    php8-zip \
-    php8-zlib \
+    php81 \
+    php81-curl \
+    php81-fileinfo \
+    php81-fpm \
+    php81-ftp \
+    php81-json \
+    php81-ldap \
+    php81-mbstring \
+    php81-mysqli \
+    php81-openssl \
+    php81-pdo_sqlite \
+    php81-session \
+    php81-simplexml \
+    php81-sqlite3 \
+    php81-tokenizer \
+    php81-xml \
+    php81-xmlwriter \
+    php81-zip \
+    php81-zlib \
     shadow \
     tzdata && \
   echo "**** add s6 overlay ****" && \
@@ -93,19 +93,20 @@ RUN \
   sed -i "s#/var/log/messages {}.*# #g" /etc/logrotate.conf && \
   sed -i 's#/usr/sbin/logrotate /etc/logrotate.conf#/usr/sbin/logrotate /etc/logrotate.conf -s /config/log/logrotate.status#g' /etc/periodic/daily/logrotate && \
   echo "**** enable PHP-FPM ****" && \
-  sed -i "s#listen = 127.0.0.1:9000#listen = '/var/run/php8-fpm.sock'#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#;listen.owner = nobody#listen.owner = organizr#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#;listen.group = nobody#listen.group = organizr#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#;listen.mode = nobody#listen.mode = 0660#g" /etc/php8/php-fpm.d/www.conf && \
+  sed -i "s#listen = 127.0.0.1:9000#listen = '/var/run/php81-fpm.sock'#g" /etc/php81/php-fpm.d/www.conf && \
+  sed -i "s#;listen.owner = nobody#listen.owner = organizr#g" /etc/
+  /php-fpm.d/www.conf && \
+  sed -i "s#;listen.group = nobody#listen.group = organizr#g" /etc/php81/php-fpm.d/www.conf && \
+  sed -i "s#;listen.mode = nobody#listen.mode = 0660#g" /etc/php81/php-fpm.d/www.conf && \
   echo "**** set our recommended defaults ****" && \
-  sed -i "s#pm = dynamic#pm = ondemand#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#pm.max_children = 5#pm.max_children = 4000#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#pm.start_servers = 2#;pm.start_servers = 2#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#;pm.process_idle_timeout = 10s;#pm.process_idle_timeout = 10s;#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#;pm.max_requests = 500#pm.max_requests = 0#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#user = nobody.*#user = organizr#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#group = nobody.*#group = organizr#g" /etc/php8/php-fpm.d/www.conf && \
-  sed -i "s#;error_log = log/php8/error.log.*#error_log = /config/log/php/error.log#g" /etc/php8/php-fpm.conf && \
+  sed -i "s#pm = dynamic#pm = ondemand#g" /etc/php81/php-fpm.d/www.conf && \
+  sed -i "s#pm.max_children = 5#pm.max_children = 4000#g" /etc/php81/php-fpm.d/www.conf && \
+  sed -i "s#pm.start_servers = 2#;pm.start_servers = 2#g" /etc/php81/php-fpm.d/www.conf && \
+  sed -i "s#;pm.process_idle_timeout = 10s;#pm.process_idle_timeout = 10s;#g" /etc/php81/php-fpm.d/www.conf && \
+  sed -i "s#;pm.max_requests = 500#pm.max_requests = 0#g" /etc/php81/php-fpm.d/www.conf && \
+  sed -i "s#user = nobody.*#user = organizr#g" /etc/php81/php-fpm.d/www.conf && \
+  sed -i "s#group = nobody.*#group = organizr#g" /etc/php81/php-fpm.d/www.conf && \
+  sed -i "s#;error_log = log/php81/error.log.*#error_log = /config/log/php/error.log#g" /etc/php81/php-fpm.conf && \
   echo "**** cleanup ****" && \
   apk del --purge \
     build-dependencies && \

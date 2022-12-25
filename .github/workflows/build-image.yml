@@ -22,6 +22,9 @@ jobs:
           echo "::set-output name=source::${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_REF//refs\/heads\//}"
           echo "::set-output name=url::${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/blob/master/README.md"
           echo "::set-output name=tag::$(echo ${GITHUB_REPOSITORY} | tr '[:upper:]' '[:lower:]'):${VERSION}"
+          echo "::set-output name=tag_branch::$(echo ${GITHUB_REPOSITORY} | tr '[:upper:]' '[:lower:]'):${GITHUB_REF//refs\/heads\//}"
+          echo "::set-output name=tag_org::$(echo ${GITHUB_REPOSITORY} | tr '[:upper:]' '[:lower:]'):${BRANCH}"
+          echo "::set-output name=tag_latest::$(echo ${GITHUB_REPOSITORY} | tr '[:upper:]' '[:lower:]'):latest"
           echo "::set-output name=orgver::${VERSION}"
           echo "::set-output name=orgbranch::${BRANCH}"
 
@@ -47,6 +50,8 @@ jobs:
           file: Dockerfile
           tags: |
             ghcr.io/${{ steps.vars.outputs.tag }}
+            ghcr.io/${{ steps.vars.outputs.tag_branch }}
+            ghcr.io/${{ steps.vars.outputs.tag_latest }}
           build-args: |
             VERSION=${{ steps.vars.outputs.orgver }}
             BRANCH=${{ steps.vars.outputs.orgbranch }}
@@ -54,14 +59,3 @@ jobs:
             org.opencontainers.image.source=${{ steps.vars.outputs.source }}
             org.opencontainers.image.url=${{ steps.vars.outputs.url }}
 
-      - name: Create manifests for GitHub Container Registry
-        env:
-          DOCKER_CLI_EXPERIMENTAL: enabled
-        run: |
-          IMAGE=ghcr.io/$(echo ${GITHUB_REPOSITORY} | tr '[:upper:]' '[:lower:]')
-          SOURCE=${IMAGE}:${{ steps.vars.outputs.orgver }}
-          docker manifest create ${IMAGE}:${{ steps.vars.outputs.branch }}    --amend ${SOURCE} && docker manifest push ${IMAGE}:${{ steps.vars.outputs.branch }}
-          docker manifest create ${IMAGE}:${{ steps.vars.outputs.orgbranch }}    --amend ${SOURCE} && docker manifest push ${IMAGE}:${{ steps.vars.outputs.orgbranch }}
-          if [[ ${GITHUB_REF//refs\/heads\//} == main ]]; then
-            docker manifest create ${IMAGE}:latest                            --amend ${SOURCE} && docker manifest push ${IMAGE}:latest
-          fi

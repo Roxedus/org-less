@@ -36,7 +36,7 @@ ARG VERSION=LocalBuild
 LABEL version=$VERSION
 LABEL maintainer="roxedus"
 
-ENV S6_REL=3.1.0.1 S6_ARCH=x86_64 S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 TZ=Etc/UTC
+ENV S6_REL=3.1.0.1 S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 TZ=Etc/UTC
 
 
 RUN \
@@ -79,7 +79,7 @@ RUN \
     "https://github.com/just-containers/s6-overlay/releases/download/v${S6_REL}/s6-overlay-noarch.tar.xz" && \
   tar -C / -Jxpf /tmp/s6-overlay-noarch.tar.gz && \
   curl -o /tmp/s6-overlay-arch.tar.gz -L \
-    "https://github.com/just-containers/s6-overlay/releases/download/v${S6_REL}/s6-overlay-${S6_ARCH}.tar.xz" && \
+    "https://github.com/just-containers/s6-overlay/releases/download/v${S6_REL}/s6-overlay-$(uname -m).tar.xz" && \
   tar -C / -Jxpf /tmp/s6-overlay-arch.tar.gz && \
   echo "**** create organizr user and make folders ****" && \
   groupmod -g 1000 users && \

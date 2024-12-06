@@ -1,4 +1,4 @@
-FROM alpine:3.17 as artifact-stage
+FROM alpine:3.21 as artifact-stage
 
 ARG BUILD_DATE
 ARG VERSION=LocalBuild
@@ -29,7 +29,7 @@ RUN \
   echo "$BRANCH" > /build/Docker.txt && \
   echo "$VERSION" > /build/Github.txt
 
-FROM alpine:3.17 as baseimage
+FROM alpine:3.21 as baseimage
 
 ARG BUILD_DATE
 ARG VERSION=LocalBuild
